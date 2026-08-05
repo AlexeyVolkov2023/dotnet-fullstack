@@ -1,6 +1,6 @@
 ﻿using DirectoryService.Domain.Shared;
 
-namespace DirectoryService.Domain.DepartmentManagement.ValueObject;
+namespace DirectoryService.Domain.DepartmentManagement.ValueObjects;
 
 public sealed record DepartmentName
 {
@@ -23,7 +23,7 @@ public sealed record DepartmentName
         if (normalized.Length is < LengthConstants.Length3 or > LengthConstants.Length150)
         {
             throw new ArgumentException(
-                $"Название отдела должно содержать от {{LengthConstants.Length3}} до {{LengthConstants.Length150}}" +
+                $"Название отдела должно содержать от {LengthConstants.Length3} до {LengthConstants.Length150}" +
                 $" символов.", nameof(value));
         }
 

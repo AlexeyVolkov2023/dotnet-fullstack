@@ -6,7 +6,7 @@ namespace DirectoryService.Domain.CommunicationManagement;
 
 public record DepartmentPosition
 {
-    public DepartmentPosition()
+    private DepartmentPosition()
     {
         DepartmentPositionId = null!;
         Department = null!;

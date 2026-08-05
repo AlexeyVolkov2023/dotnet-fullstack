@@ -23,7 +23,7 @@ public sealed record PositionName
         if (normalized.Length is < LengthConstants.Length3 or > LengthConstants.Length100)
         {
             throw new ArgumentException(
-                $"Название позиции должно содержать от {LengthConstants.Length3} до {LengthConstants.Length150}" +
+                $"Название позиции должно содержать от {LengthConstants.Length3} до {LengthConstants.Length100}" +
                 $" символов.", nameof(value));
         }
 

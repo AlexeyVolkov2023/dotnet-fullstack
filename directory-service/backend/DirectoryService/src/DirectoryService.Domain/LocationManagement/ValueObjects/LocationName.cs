@@ -24,7 +24,7 @@ public sealed record LocationName
         if (normalized.Length is < LengthConstants.Length3 or > LengthConstants.Length120)
         {
             throw new ArgumentException(
-                $"Название локации должно содержать от {LengthConstants.Length3} до {LengthConstants.Length150}" +
+                $"Название локации должно содержать от {LengthConstants.Length3} до {LengthConstants.Length120}" +
                 $" символов.", nameof(value));
         }
 

@@ -1,7 +1,6 @@
 ﻿using DirectoryService.Domain.Shared;
 
-
-namespace DirectoryService.Domain.DepartmentManagement.ValueObject;
+namespace DirectoryService.Domain.DepartmentManagement.ValueObjects;
 
 public sealed partial record Slug
 {

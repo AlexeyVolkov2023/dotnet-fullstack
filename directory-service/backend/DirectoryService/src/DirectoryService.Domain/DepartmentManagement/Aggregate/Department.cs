@@ -1,8 +1,9 @@
 ﻿using DirectoryService.Domain.CommunicationManagement;
 using DirectoryService.Domain.CommunicationManagement.Ids;
-using DirectoryService.Domain.DepartmentManagement.ValueObject;
+using DirectoryService.Domain.DepartmentManagement.ValueObjects;
 using DirectoryService.Domain.LocationManagement.Ids;
-using Path = DirectoryService.Domain.DepartmentManagement.ValueObject.Path;
+using Path = DirectoryService.Domain.DepartmentManagement.ValueObjects.Path;
+using Slug = DirectoryService.Domain.DepartmentManagement.ValueObjects.Slug;
 
 namespace DirectoryService.Domain.DepartmentManagement.Aggregate;
 
