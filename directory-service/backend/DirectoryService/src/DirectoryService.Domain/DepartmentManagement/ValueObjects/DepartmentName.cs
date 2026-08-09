@@ -13,18 +13,13 @@ public sealed record DepartmentName
 
     public static DepartmentName Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            throw new ArgumentException("Название отдела не может быть пустым или содержать пробелы.", nameof(value));
-        }
-
-        var normalized = value.Trim();
+        var normalized = value?.Trim() ?? string.Empty;
 
         if (normalized.Length is < LengthConstants.Length3 or > LengthConstants.Length150)
         {
             throw new ArgumentException(
-                $"Название отдела должно содержать от {LengthConstants.Length3} до {LengthConstants.Length150}" +
-                $" символов.", nameof(value));
+                $"Название отдела должно содержать от {LengthConstants.Length3} до {LengthConstants.Length150} " +
+                $"символов и не может быть пустым. Текущая длина: {normalized.Length}", nameof(value));
         }
 
         return new DepartmentName(normalized);

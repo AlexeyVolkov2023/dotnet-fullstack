@@ -1,5 +1,6 @@
 ﻿using DirectoryService.Domain.CommunicationManagement;
 using DirectoryService.Domain.CommunicationManagement.Ids;
+using DirectoryService.Domain.DepartmentManagement.Ids;
 using DirectoryService.Domain.DepartmentManagement.ValueObjects;
 using DirectoryService.Domain.LocationManagement.Ids;
 using Path = DirectoryService.Domain.DepartmentManagement.ValueObjects.Path;
@@ -10,9 +11,8 @@ namespace DirectoryService.Domain.DepartmentManagement.Aggregate;
 public sealed class Department
 {
     private readonly List<DepartmentLocation> _departmentLocations = [];
-
     private readonly List<DepartmentPosition> _departmentPositions = [];
-    
+
     private Department()
     {
     }
@@ -21,33 +21,32 @@ public sealed class Department
         DepartmentName departmentName,
         Slug slug,
         Path path,
-        Department? parent,
+        DepartmentId? parentId,
         IEnumerable<Guid> locationIds)
     {
-        Id = Guid.CreateVersion7();
+        Id = DepartmentId.NewDepartmentId();
         DepartmentName = departmentName;
         Slug = slug;
         Path = path;
-        Parent = parent;
+        ParentId = parentId;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
-        var locations = locationIds.Select(locationId =>
-                new DepartmentLocation(
-                    DepartmentLocationId.NewDepartmentLocationId(),
-                    this,
-                    LocationId.Create(locationId)))
-            .ToList();
 
-        _departmentLocations = locations;
+        _departmentLocations = locationIds
+            .Select(locationId => new DepartmentLocation(
+                DepartmentLocationId.NewDepartmentLocationId(),
+                this,
+                LocationId.Create(locationId)))
+            .ToList();
 
         _departmentPositions = new List<DepartmentPosition>();
     }
 
-    public Guid Id { get; private set; }
+    public DepartmentId? Id { get; private set; }
 
     public DepartmentName DepartmentName { get; private set; } = null!;
 
-    public Slug Slug { get; private set;} = null!;
+    public Slug Slug { get; private set; } = null!;
 
     public Path Path { get; private set; } = null!;
 
@@ -55,39 +54,39 @@ public sealed class Department
 
     public DateTime UpdatedAt { get; private set; }
 
+    public DepartmentId? ParentId { get; private set; }
+
     public Department? Parent { get; private set; }
-    
+
     public IReadOnlyList<DepartmentLocation> DepartmentLocations => _departmentLocations;
-    
     public IReadOnlyList<DepartmentPosition> DepartmentPositions => _departmentPositions;
 
     public static Department Create(
         DepartmentName departmentName,
         Slug slug,
-        Department? parent,
+        DepartmentId? parentId,
+        string? parentPath,
         IEnumerable<Guid> locationIds)
     {
-        var path = BuildPath(parent, slug);
+        var path = BuildPath(parentPath, slug);
 
         return new Department(
             departmentName,
             slug,
             path,
-            parent,
+            parentId,
             locationIds);
     }
 
-    private static Path BuildPath(Department? parent, Slug slug)
+    private static Path BuildPath(string? parentPath, Slug slug)
     {
-        var pathStr = parent?.Slug.Value ?? string.Empty;
-
+        var pathStr = parentPath ?? string.Empty;
         if (!string.IsNullOrEmpty(pathStr))
         {
             pathStr += ".";
         }
 
         pathStr += slug.Value;
-
         return Path.Create(pathStr);
     }
 }

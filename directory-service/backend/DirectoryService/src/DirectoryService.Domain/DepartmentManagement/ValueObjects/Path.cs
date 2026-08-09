@@ -1,4 +1,6 @@
-﻿namespace DirectoryService.Domain.DepartmentManagement.ValueObjects;
+﻿using DirectoryService.Domain.Shar;
+
+namespace DirectoryService.Domain.DepartmentManagement.ValueObjects;
 
 public sealed partial record Path
 {
@@ -21,6 +23,11 @@ public sealed partial record Path
             throw new ArgumentException(
                 "Путь содержит недопустимые символы.Буквы допускаются только в нижнем регистре, после первой буквы" +
                 "допускаются буквы, цифры, точки и дефисы", nameof(value));
+        }
+
+        if (value.Length > LengthConstants.Length1000)
+        {
+            throw new ArgumentException("Длина пути не должна превышать 1000 символов.", nameof(value));
         }
 
         return new Path(value);

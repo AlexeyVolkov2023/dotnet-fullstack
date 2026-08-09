@@ -21,11 +21,11 @@ public sealed partial record Slug
         #pragma warning disable CA1308
         var normalized = value.Trim().ToLowerInvariant().Replace(' ', '-');
 
-        if (normalized.Length < LengthConstants.Length3 || normalized.Length > LengthConstants.Length150)
+        if (normalized.Length is < LengthConstants.Length3 or > LengthConstants.Length150)
         {
             throw new ArgumentException(
-                $"Слаг должен содержать от {LengthConstants.Length3} до {LengthConstants.Length150} символов."
-                , nameof(value));
+                $"Слаг должен содержать от {LengthConstants.Length3} до {LengthConstants.Length150} символов." +
+                $"Текущая длина: {normalized.Length}.", nameof(value));
         }
 
         if (!MyRegex.IsMatch(normalized))
