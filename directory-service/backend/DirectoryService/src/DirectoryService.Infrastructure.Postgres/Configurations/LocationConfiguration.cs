@@ -30,18 +30,23 @@ public class LocationConfiguration : IEntityTypeConfiguration<Location>
         {
             ab.Property(a => a.Country)
                 .HasColumnName("country")
+                .HasMaxLength(LengthConstants.Length100)
                 .IsRequired();
             ab.Property(a => a.Region)
                 .HasColumnName("region")
+                .HasMaxLength(LengthConstants.Length100)
                 .IsRequired();
             ab.Property(a => a.City)
                 .HasColumnName("city")
+                .HasMaxLength(LengthConstants.Length100)
                 .IsRequired();
             ab.Property(a => a.Street)
                 .HasColumnName("street")
+                .HasMaxLength(LengthConstants.Length250)
                 .IsRequired();
             ab.Property(a => a.HouseNumber)
                 .HasColumnName("house_number")
+                .HasMaxLength(LengthConstants.Length20)
                 .IsRequired();
         });
 

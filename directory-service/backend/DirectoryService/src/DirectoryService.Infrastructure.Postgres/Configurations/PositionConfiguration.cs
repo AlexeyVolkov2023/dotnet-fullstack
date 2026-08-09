@@ -25,5 +25,13 @@ public class PositionConfiguration : IEntityTypeConfiguration<Position>
                 .HasMaxLength(LengthConstants.Length100)
                 .IsRequired();
         });
+
+        builder.Property(l => l.CreatedAt)
+            .HasColumnName("created_at")
+            .IsRequired();
+
+        builder.Property(l => l.UpdatedAt)
+            .HasColumnName("updated_at")
+            .IsRequired();
     }
 }
