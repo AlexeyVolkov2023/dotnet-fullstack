@@ -1,4 +1,4 @@
-﻿using DirectoryService.Domain.Shared;
+﻿using DirectoryService.Domain.Shar;
 
 namespace DirectoryService.Domain.LocationManagement.ValueObjects;
 
