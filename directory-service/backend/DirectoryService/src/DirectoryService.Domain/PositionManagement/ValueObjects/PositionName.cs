@@ -13,20 +13,15 @@ public sealed record PositionName
 
     public static PositionName Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            throw new ArgumentException("Название позиции не может быть пустым или содержать пробелы.", nameof(value));
-        }
-
-        var normalized = value.Trim();
+        var normalized = value?.Trim() ?? string.Empty;
 
         if (normalized.Length is < LengthConstants.Length3 or > LengthConstants.Length100)
         {
             throw new ArgumentException(
-                $"Название позиции должно содержать от {LengthConstants.Length3} до {LengthConstants.Length100}" +
-                $" символов.", nameof(value));
+                $"Название позиции должно содержать от {LengthConstants.Length3} до {LengthConstants.Length100} " +
+                $"символов и не может быть пустым. Текущая длина: {normalized.Length}", nameof(value));
         }
 
-        return new PositionName(value);
+        return new PositionName(normalized);
     }
 }

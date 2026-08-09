@@ -1,24 +1,11 @@
-using DirectoryService.Infrastructure.Postgres;
-using Microsoft.EntityFrameworkCore;
+using DirectoryService.Web;
 using Scalar.AspNetCore;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
+builder.Services.AddProgramDependencies(builder.Configuration);
 
-builder.Services.AddControllers();
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-if (string.IsNullOrEmpty(connectionString))
-{
-    throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
-}
-
-builder.Services.AddDbContext<DirectoryServiceDbContext>(options =>
-    options.UseNpgsql(connectionString));
-
-WebApplication app = builder.Build();
+var app = builder.Build();
 
 app.MapGet("/", () => "DirectoryService is running!");
 

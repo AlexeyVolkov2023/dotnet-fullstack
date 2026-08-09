@@ -1,4 +1,5 @@
-﻿using DirectoryService.Domain.PositionManagement.ValueObjects;
+﻿using DirectoryService.Domain.PositionManagement.Ids;
+using DirectoryService.Domain.PositionManagement.ValueObjects;
 
 namespace DirectoryService.Domain.PositionManagement.Aggregate;
 
@@ -10,13 +11,13 @@ public class Position
 
     private Position(PositionName positionName)
     {
-        Id = Guid.CreateVersion7();
+        Id = PositionId.NewPositionId();
         PositionName = positionName;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public Guid Id { get; private set; }
+    public PositionId? Id { get; private set; }
 
     public PositionName PositionName { get; private set; } = null!;
 

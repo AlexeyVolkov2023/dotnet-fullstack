@@ -1,4 +1,5 @@
-﻿using DirectoryService.Domain.LocationManagement.ValueObjects;
+﻿using DirectoryService.Domain.LocationManagement.Ids;
+using DirectoryService.Domain.LocationManagement.ValueObjects;
 
 namespace DirectoryService.Domain.LocationManagement.Aggregate;
 
@@ -12,14 +13,14 @@ public sealed class Location
         LocationName locationName,
         Address address)
     {
-        Id = Guid.CreateVersion7();
+        Id = LocationId.NewLocationId();
         LocationName = locationName;
         Address = address;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public Guid Id { get; private set; }
+    public LocationId? Id { get; private set; }
 
     public LocationName LocationName { get; private set; } = null!;
 
