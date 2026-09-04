@@ -1,4 +1,6 @@
-﻿using DirectoryService.Contracts.Location;
+﻿using DirectoryService.Contracts.Locations;
+using DirectoryService.Core.Locations.Create;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
@@ -14,11 +16,41 @@ namespace DirectoryService.Web.Controllers;
 [Route("api/[controller]")]
 public sealed class LocationController : ControllerBase
 {
+
     [HttpPost]
-    public IActionResult Create([FromBody] CreateLocationDto request)
+    public async Task<IActionResult> Create(
+        [FromServices] CreateLocationHandler handler,
+        [FromBody] CreateLocationDto request, 
+        CancellationToken cancellationToken)
     {
-        var newId = Guid.NewGuid();
-        return CreatedAtAction(nameof(GetById), new { id = newId }, new { Id = newId });
+        try
+        {
+            var command = new CreateLocationCommand(request);
+            
+            var id = await handler.Handle(command, cancellationToken);
+
+            return CreatedAtAction(nameof(GetById), new { id }, new { Id = id });
+        }
+        catch (ValidationException ex)
+        {
+           return BadRequest(new 
+            { 
+                errors = ex.Errors.Select(e => e.ErrorMessage) 
+            });
+        }
+        catch (InvalidOperationException ex) when (ex.Message.Contains("already exists", StringComparison.Ordinal))
+        {
+            // 409 Conflict для бизнес-ошибок (занятое имя)
+            return Conflict(new { error = "Conflict", message = ex.Message });
+        }
+#pragma warning disable CA1031
+        catch
+#pragma warning restore CA1031
+        {
+            // 500 Internal Server Error для всего остального
+            // В реальном проекте здесь должно быть логирование через ILogger
+            return StatusCode(500, new { error = "Internal Error", message = "An unexpected error occurred." });
+        }
     }
 
     [HttpGet("{id:guid}")]

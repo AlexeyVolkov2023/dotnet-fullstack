@@ -1,6 +1,6 @@
-﻿using DirectoryService.Domain.DepartmentManagement.Aggregate;
-using DirectoryService.Domain.LocationManagement.Aggregate;
-using DirectoryService.Domain.PositionManagement.Aggregate;
+﻿using DirectoryService.Domain.Departments.Aggregate;
+using DirectoryService.Domain.Locations.Aggregate;
+using DirectoryService.Domain.Positions.Aggregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace DirectoryService.Infrastructure.Postgres;

@@ -1,4 +1,4 @@
-﻿using DirectoryService.Contracts.Position;
+﻿using DirectoryService.Contracts.Positions;
 using Microsoft.AspNetCore.Mvc;
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(

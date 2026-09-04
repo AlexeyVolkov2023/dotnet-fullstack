@@ -1,6 +1,6 @@
-﻿using DirectoryService.Domain.CommunicationManagement;
-using DirectoryService.Domain.CommunicationManagement.Ids;
-using DirectoryService.Domain.PositionManagement.Aggregate;
+﻿using DirectoryService.Domain.Communications;
+using DirectoryService.Domain.Communications.Ids;
+using DirectoryService.Domain.Positions.Aggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
