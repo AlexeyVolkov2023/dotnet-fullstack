@@ -23,34 +23,14 @@ public sealed class LocationController : ControllerBase
         [FromBody] CreateLocationDto request, 
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var command = new CreateLocationCommand(request);
-            
-            var id = await handler.Handle(command, cancellationToken);
+        // Маппинг DTO в Command
+        var command = new CreateLocationCommand(request);
+        
+        // Делегируем работу хендлеру. Исключения будут всплывать дальше.
+        var id = await handler.Handle(command, cancellationToken);
 
-            return CreatedAtAction(nameof(GetById), new { id }, new { Id = id });
-        }
-        catch (ValidationException ex)
-        {
-           return BadRequest(new 
-            { 
-                errors = ex.Errors.Select(e => e.ErrorMessage) 
-            });
-        }
-        catch (InvalidOperationException ex) when (ex.Message.Contains("already exists", StringComparison.Ordinal))
-        {
-            // 409 Conflict для бизнес-ошибок (занятое имя)
-            return Conflict(new { error = "Conflict", message = ex.Message });
-        }
-#pragma warning disable CA1031
-        catch
-#pragma warning restore CA1031
-        {
-            // 500 Internal Server Error для всего остального
-            // В реальном проекте здесь должно быть логирование через ILogger
-            return StatusCode(500, new { error = "Internal Error", message = "An unexpected error occurred." });
-        }
+        // Если исключений не было, возвращаем успешный ответ
+        return CreatedAtAction(nameof(GetById), new { id }, new { Id = id });
     }
 
     [HttpGet("{id:guid}")]

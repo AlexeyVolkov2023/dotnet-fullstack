@@ -32,7 +32,7 @@ public class CreateLocationHandler
         var locationExist = await _locationRepository.DoesLocationNameExistExcludingIdAsync(
             locationName,
             cancellationToken);
-        if (locationExist!)
+        if (locationExist)
         {
             throw new InvalidOperationException(
                 $"Location with name '{command.CreateLocationDto.Name}' already exists.");
@@ -49,6 +49,6 @@ public class CreateLocationHandler
 
         var locationResult = await _locationRepository.AddAsync(locationToSave, cancellationToken);
 
-        return locationResult;
+        return locationResult.Value;
     }
 }
