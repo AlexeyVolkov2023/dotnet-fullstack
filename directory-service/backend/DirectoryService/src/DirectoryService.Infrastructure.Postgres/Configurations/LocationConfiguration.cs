@@ -1,5 +1,5 @@
-﻿using DirectoryService.Domain.LocationManagement.Aggregate;
-using DirectoryService.Domain.LocationManagement.Ids;
+﻿using DirectoryService.Domain.Locations.Aggregate;
+using DirectoryService.Domain.Locations.Ids;
 using DirectoryService.Domain.Shar;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

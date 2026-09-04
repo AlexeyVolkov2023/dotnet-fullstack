@@ -1,4 +1,6 @@
-﻿using DirectoryService.Contracts.Location;
+﻿using DirectoryService.Contracts.Locations;
+using DirectoryService.Core.Locations.Create;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
@@ -14,11 +16,21 @@ namespace DirectoryService.Web.Controllers;
 [Route("api/[controller]")]
 public sealed class LocationController : ControllerBase
 {
+
     [HttpPost]
-    public IActionResult Create([FromBody] CreateLocationDto request)
+    public async Task<IActionResult> Create(
+        [FromServices] CreateLocationHandler handler,
+        [FromBody] CreateLocationDto request, 
+        CancellationToken cancellationToken)
     {
-        var newId = Guid.NewGuid();
-        return CreatedAtAction(nameof(GetById), new { id = newId }, new { Id = newId });
+        // Маппинг DTO в Command
+        var command = new CreateLocationCommand(request);
+        
+        // Делегируем работу хендлеру. Исключения будут всплывать дальше.
+        var id = await handler.Handle(command, cancellationToken);
+
+        // Если исключений не было, возвращаем успешный ответ
+        return CreatedAtAction(nameof(GetById), new { id }, new { Id = id });
     }
 
     [HttpGet("{id:guid}")]

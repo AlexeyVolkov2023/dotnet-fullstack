@@ -1,5 +1,5 @@
-﻿using DirectoryService.Domain.PositionManagement.Aggregate;
-using DirectoryService.Domain.PositionManagement.Ids;
+﻿using DirectoryService.Domain.Positions.Aggregate;
+using DirectoryService.Domain.Positions.Ids;
 using DirectoryService.Domain.Shar;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

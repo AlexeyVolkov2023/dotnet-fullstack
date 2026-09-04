@@ -1,5 +1,5 @@
-﻿using DirectoryService.Domain.DepartmentManagement.Aggregate;
-using DirectoryService.Domain.DepartmentManagement.Ids;
+﻿using DirectoryService.Domain.Departments.Aggregate;
+using DirectoryService.Domain.Departments.Ids;
 using DirectoryService.Domain.Shar;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

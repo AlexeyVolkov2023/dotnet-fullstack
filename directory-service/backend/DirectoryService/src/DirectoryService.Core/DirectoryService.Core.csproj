@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Scrutor" />
   </ItemGroup>
 </Project>

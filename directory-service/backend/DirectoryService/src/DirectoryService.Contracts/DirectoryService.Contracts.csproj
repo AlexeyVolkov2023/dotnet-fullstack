@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <Folder Include="Communication\" />
+    <Folder Include="Communications\" />
   </ItemGroup>
 </Project>
