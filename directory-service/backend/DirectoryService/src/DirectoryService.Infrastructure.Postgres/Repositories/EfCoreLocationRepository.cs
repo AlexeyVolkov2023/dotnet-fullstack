@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DirectoryService.Infrastructure.Postgres.Repositories;
 
-public class LocationRepository : ILocationRepository
+public class EfCoreLocationRepository : ILocationRepository
 {
     private readonly DirectoryServiceDbContext _dbContext;
 
-    public LocationRepository(DirectoryServiceDbContext dbContext)
+    public EfCoreLocationRepository(DirectoryServiceDbContext dbContext)
     {
         _dbContext = dbContext;
     }
