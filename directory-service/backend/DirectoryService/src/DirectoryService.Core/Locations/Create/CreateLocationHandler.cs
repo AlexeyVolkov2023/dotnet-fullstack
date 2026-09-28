@@ -29,10 +29,10 @@ public class CreateLocationHandler
 
         var locationName = LocationName.Create(command.CreateLocationDto.Name);
 
-        var locationExist = await _locationRepository.DoesLocationNameExistExcludingIdAsync(
+        var locationNameExist = await _locationRepository.ExistsByNameAsync(
             locationName,
             cancellationToken);
-        if (locationExist)
+        if (locationNameExist)
         {
             throw new InvalidOperationException(
                 $"Location with name '{command.CreateLocationDto.Name}' already exists.");

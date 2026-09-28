@@ -7,9 +7,9 @@ namespace DirectoryService.Core.Locations;
 
 public interface ILocationRepository
 {
-    Task<LocationId> AddAsync(Location location, CancellationToken cancellationToken);
+    Task<LocationId> AddAsync(Location location, CancellationToken cancellationToken = default);
 
-    Task<bool> DoesLocationNameExistExcludingIdAsync(
+    Task<bool> ExistsByNameAsync(
         LocationName locationName,
         CancellationToken cancellationToken = default);
 }
