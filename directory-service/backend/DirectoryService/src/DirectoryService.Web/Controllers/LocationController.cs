@@ -16,20 +16,16 @@ namespace DirectoryService.Web.Controllers;
 [Route("api/[controller]")]
 public sealed class LocationController : ControllerBase
 {
-
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromServices] CreateLocationHandler handler,
-        [FromBody] CreateLocationDto request, 
+        [FromBody] CreateLocationDto request,
         CancellationToken cancellationToken)
     {
-        // Маппинг DTO в Command
         var command = new CreateLocationCommand(request);
-        
-        // Делегируем работу хендлеру. Исключения будут всплывать дальше.
+
         var id = await handler.Handle(command, cancellationToken);
 
-        // Если исключений не было, возвращаем успешный ответ
         return CreatedAtAction(nameof(GetById), new { id }, new { Id = id });
     }
 
