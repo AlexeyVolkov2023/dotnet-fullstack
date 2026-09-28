@@ -22,7 +22,7 @@ public class DapperLocationRepository : ILocationRepository
     {
         const string sql = @"
             INSERT INTO locations (id, name, country, region, city, street, house_number, apartment_number, created_at, updated_at)
-            VALUES (@Id, @Name, @Country, @Region, @City, @Street, @HouseNumber, @ApartmentNumber, @CreatedAt, @UpdatedAt)";
+            VALUES (@Id, @LocationName, @Country, @Region, @City, @Street, @HouseNumber, @ApartmentNumber, @CreatedAt, @UpdatedAt)";
 
         try
         {
@@ -31,27 +31,27 @@ public class DapperLocationRepository : ILocationRepository
             await connection.ExecuteAsync(sql, new
             {
                 Id = location.Id!.Value,
-                Name = location.LocationName.Value,
+                LocationName = location.LocationName.Value,
                 Country = location.Address.Country,
                 Region = location.Address.Region,
                 City = location.Address.City,
                 Street = location.Address.Street,
                 HouseNumber = location.Address.HouseNumber,
                 CreatedAt = location.CreatedAt,
-                UpdatedAt = location.UpdatedAt
+                UpdatedAt = location.UpdatedAt,
+                cancellationToken,
             });
         }
-        catch (Exception)
-        {
-            throw new InvalidOperationException("Location do not save");
-        }
+        catch (Exception ex)
+            when (ex is not OperationCanceledException) 
+        { throw new InvalidOperationException("Location do not save", ex); }
 
-        return location.Id!.Value;
+        return location.Id!;
     }
 
     public async Task<bool> ExistsByNameAsync(LocationName locationName, CancellationToken cancellationToken = default)
     {
-        const string sql = "SELECT EXISTS(SELECT 1 FROM locations WHERE locationName = @Name)";
+        const string sql = "SELECT EXISTS(SELECT 1 FROM locations WHERE locationName = ＠LocationName)";
 
         await using var connection = new NpgsqlConnection(_connectionString);
         return await connection.QuerySingleAsync<bool>(sql, new { LocationName = locationName.Value });
