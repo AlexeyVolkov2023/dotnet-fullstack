@@ -27,7 +27,7 @@ public class CreateLocationHandler
             throw new ValidationException(validationResult.Errors);
         }
 
-        var locationName = LocationName.Create(command.CreateLocationDto.Name);
+        var locationName = LocationName.Create(command.CreateLocationDto.LocationName);
 
         var locationNameExist = await _locationRepository.ExistsByNameAsync(
             locationName,
@@ -35,7 +35,7 @@ public class CreateLocationHandler
         if (locationNameExist)
         {
             throw new InvalidOperationException(
-                $"Location with name '{command.CreateLocationDto.Name}' already exists.");
+                $"Location with name '{command.CreateLocationDto.LocationName}' already exists.");
         }
 
         var address = Address.Create(

@@ -1,4 +1,5 @@
-﻿using DirectoryService.Infrastructure.Postgres;
+﻿using DirectoryService.Core;
+using DirectoryService.Infrastructure.Postgres;
 
 namespace DirectoryService.Web;
 
@@ -10,7 +11,8 @@ internal static class DInjection
     {
         serviceCollection
             .AddInfrastructureDependencies(configuration)
-            .AddWebDependencies();
+            .AddWebDependencies()
+            .AddCoreDependencies();
 
         return serviceCollection;
     }

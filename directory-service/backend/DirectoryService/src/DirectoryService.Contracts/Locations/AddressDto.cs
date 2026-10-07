@@ -5,6 +5,5 @@ public record AddressDto(
     string Region,
     string City,
     string Street,
-    string HouseNumber,
-    string? ApartmentNumber = null
+    string HouseNumber
 );

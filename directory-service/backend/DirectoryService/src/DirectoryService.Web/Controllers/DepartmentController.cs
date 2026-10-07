@@ -1,4 +1,5 @@
 ﻿using DirectoryService.Contracts.Departments;
+using DirectoryService.Core.Departments;
 using Microsoft.AspNetCore.Mvc;
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
@@ -16,16 +17,22 @@ namespace DirectoryService.Web.Controllers;
 public sealed class DepartmentController : ControllerBase
 {
     [HttpPost]
-    public IActionResult Create([FromBody] CreateDepartmentDto request)
+    public async Task<IActionResult> Create(
+        [FromServices] CreateDepartmentHandler handler,
+        [FromBody] CreateDepartmentDto request,
+        CancellationToken cancellationToken)
     {
-        var newId = Guid.NewGuid();
-        return CreatedAtAction(nameof(GetById), new { id = newId }, new { Id = newId });
+        var command = new CreateDepartmentCommand(request);
+
+        var id = await handler.Handle(command, cancellationToken);
+
+        return CreatedAtAction(nameof(GetById), new { id }, new { Id = id });
     }
 
     [HttpGet("{id:guid}")]
     public IActionResult GetById([FromRoute] Guid id)
     {
-        return NotFound();
+        return Ok();
     }
 
     [HttpGet]

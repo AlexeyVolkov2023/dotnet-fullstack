@@ -1,4 +1,5 @@
-﻿using DirectoryService.Core.Locations;
+﻿using DirectoryService.Core.Departments;
+using DirectoryService.Core.Locations;
 using DirectoryService.Infrastructure.Postgres.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,8 @@ public static class DInjection
                 serviceCollection.AddScoped<ILocationRepository, EfCoreLocationRepository>();
                 break;
         }
+        serviceCollection.AddScoped<IDepartmentRepository, EfCoreDepartmentRepository>();
+        
 
         return serviceCollection;
     }
