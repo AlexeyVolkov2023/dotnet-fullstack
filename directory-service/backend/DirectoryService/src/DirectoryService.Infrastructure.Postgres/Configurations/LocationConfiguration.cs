@@ -10,7 +10,7 @@ public class LocationConfiguration : IEntityTypeConfiguration<Location>
 {
     public void Configure(EntityTypeBuilder<Location> builder)
     {
-        builder.ToTable("location");
+        builder.ToTable("locations");
 
         builder.HasKey(l => l.Id);
 

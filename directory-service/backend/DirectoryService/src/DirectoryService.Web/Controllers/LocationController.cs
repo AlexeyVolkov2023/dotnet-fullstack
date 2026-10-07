@@ -1,6 +1,5 @@
 ﻿using DirectoryService.Contracts.Locations;
 using DirectoryService.Core.Locations.Create;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(

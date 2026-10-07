@@ -20,12 +20,11 @@ public class DapperLocationRepository : ILocationRepository
 
     public async Task<LocationId> AddAsync(Location location, CancellationToken cancellationToken = default)
     {
-        // Используем реальное имя колонки из БД: location_name
-        const string sql = @"
+       const string sql = @"
         INSERT INTO locations 
-            (id, location_name, country, region, city, street, house_number, apartment_number, created_at, updated_at)
+            (id, location_name, country, region, city, street, house_number, created_at, updated_at)
         VALUES 
-            (@Id, @LocationName, @Country, @Region, @City, @Street, @HouseNumber, @ApartmentNumber, @CreatedAt, @UpdatedAt)";
+            (@Id, @LocationName, @Country, @Region, @City, @Street, @HouseNumber, @CreatedAt, @UpdatedAt)";
 
         try
         {
@@ -36,7 +35,7 @@ public class DapperLocationRepository : ILocationRepository
                 param: new
                 {
                     Id = location.Id!.Value,
-                    LocationName = location.LocationName.Value, 
+                    LocationName = location.LocationName.Value,
                     Country = location.Address.Country,
                     Region = location.Address.Region,
                     City = location.Address.City,
@@ -58,13 +57,12 @@ public class DapperLocationRepository : ILocationRepository
         LocationName locationName, 
         CancellationToken cancellationToken = default)
     {
-        // Используем реальное имя колонки из конфигурации EF Core
-        const string sql = "SELECT EXISTS(SELECT 1 FROM locations WHERE location_name = @LocationName)";
+       const string sql = "SELECT EXISTS(SELECT 1 FROM locations WHERE location_name = @LocationName)";
 
         await using var connection = new NpgsqlConnection(_connectionString);
     
         return await connection.QuerySingleAsync<bool>(
-            sql, 
+            sql,
             param: new { LocationName = locationName.Value }
         );
     }

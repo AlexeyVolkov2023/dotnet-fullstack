@@ -1,4 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <UserSecretsId>3a585ee7-c55f-4b27-917b-d06443c4e9b6</UserSecretsId>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../DirectoryService.Core/DirectoryService.Core.csproj" />
     <ProjectReference Include="../DirectoryService.Domain/DirectoryService.Domain.csproj" />

@@ -7,7 +7,7 @@ public class CreateLocationCommandValidator : AbstractValidator<CreateLocationCo
 {
     public CreateLocationCommandValidator()
     {
-        RuleFor(x => x.CreateLocationDto.Name)
+        RuleFor(x => x.CreateLocationDto.LocationName)
             .NotEmpty()
             .MaximumLength(LengthConstants.Length120)
             .MinimumLength(LengthConstants.Length3)
@@ -44,9 +44,5 @@ public class CreateLocationCommandValidator : AbstractValidator<CreateLocationCo
             .MaximumLength(LengthConstants.Length20)
             .WithMessage($"Номер дома не может быть пустым и должен содержать" +
                          $" не более {LengthConstants.Length20} символов.");
-
-        RuleFor(x => x.CreateLocationDto.Address.ApartmentNumber)
-            .MaximumLength(LengthConstants.Length20)
-            .WithMessage($"Номер квартиры должен содержать не более {LengthConstants.Length20} символов.");
     }
 }
