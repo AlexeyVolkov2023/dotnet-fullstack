@@ -1,5 +1,6 @@
 ﻿using DirectoryService.Contracts.Locations;
 using DirectoryService.Core.Locations.Create;
+using DirectoryService.Core.Locations.Update;
 using Microsoft.AspNetCore.Mvc;
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
@@ -41,10 +42,18 @@ public sealed class LocationController : ControllerBase
         return Ok(Array.Empty<object>());
     }
 
-    [HttpPut("{id:guid}")]
-    public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateLocationDto request)
+    [HttpPatch("{locationId:guid}")]
+    public async Task<IActionResult> UpdateDetails(
+        [FromRoute] Guid locationId,
+        [FromServices] UpdateLocationHandler handler,
+        [FromBody] UpdateLocationDto request,
+        CancellationToken cancellationToken)
     {
-        return Ok();
+        var command = new UpdateLocationCommand(locationId, request);
+
+        await handler.Handle(command, cancellationToken);
+
+        return Ok(new { Id = locationId });
     }
 
     [HttpDelete("{id:guid}")]

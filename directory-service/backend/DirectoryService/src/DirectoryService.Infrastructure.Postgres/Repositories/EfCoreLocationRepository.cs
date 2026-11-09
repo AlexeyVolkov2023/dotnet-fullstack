@@ -34,4 +34,48 @@ public class EfCoreLocationRepository : ILocationRepository
         return await _dbContext.Locations
             .AnyAsync(l => l.LocationName.Value == locationName.Value, cancellationToken);
     }
+
+    public async Task<bool> ExistByIdAsync(LocationId locationId, CancellationToken cancellationToken = default)
+    {
+        var location = await _dbContext.Locations
+            .FirstOrDefaultAsync(l => l.Id == locationId, cancellationToken);
+
+        if (location is null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+    
+    public async Task<bool> DoesLocationNameExistExcludingIdAsync(
+        LocationName locationName,
+        LocationId excludedId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Locations
+            .AnyAsync(
+                l =>
+                    l.LocationName == locationName
+                    && l.Id != excludedId,
+                cancellationToken);
+    }
+
+    public async Task<Location> GetByIdAsync(LocationId locationId, CancellationToken cancellationToken = default)
+    {
+        var location = await _dbContext.Locations
+            .FirstOrDefaultAsync(l => l.Id == locationId, cancellationToken);
+
+        if (location is null)
+        {
+            throw new InvalidOperationException($"Location with id {locationId} do not found");
+        }
+
+        return location;
+    }
+
+    public async Task Save(CancellationToken cancellationToken)
+    {
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

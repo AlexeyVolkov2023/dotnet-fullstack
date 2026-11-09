@@ -36,4 +36,11 @@ public sealed class Location
     {
         return new Location(locationName, address);
     }
+    
+    public void UpdateDetails(LocationName newLocationName, Address newAddress)
+    {
+        LocationName = newLocationName;
+        Address = newAddress;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

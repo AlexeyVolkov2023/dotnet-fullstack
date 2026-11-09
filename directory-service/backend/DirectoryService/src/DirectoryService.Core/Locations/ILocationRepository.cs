@@ -12,4 +12,19 @@ public interface ILocationRepository
     Task<bool> ExistsByNameAsync(
         LocationName locationName,
         CancellationToken cancellationToken = default);
+    
+    Task<bool> ExistByIdAsync(
+        LocationId locationId,
+        CancellationToken cancellationToken = default);
+    
+    Task<bool> DoesLocationNameExistExcludingIdAsync(
+        LocationName locationName,
+        LocationId excludedId,
+        CancellationToken cancellationToken = default);
+    
+    Task<Location> GetByIdAsync(
+        LocationId locationId,
+        CancellationToken cancellationToken = default);
+    
+    Task Save(CancellationToken cancellationToken);
 }

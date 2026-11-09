@@ -89,4 +89,34 @@ public sealed class Department
         pathStr += slug.Value;
         return Path.Create(pathStr);
     }
+
+    public void UpdateName(DepartmentName newDepartmentName)
+    {
+        DepartmentName = newDepartmentName;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    public void AddLocationToDepartment(LocationId locationId)
+    {
+        var newLocationLink = new DepartmentLocation(
+            DepartmentLocationId.NewDepartmentLocationId(),
+            this,
+            locationId);
+
+        _departmentLocations.Add(newLocationLink);
+
+        UpdatedAt = DateTime.UtcNow;
+    }
+    
+    public void RemoveLocationFromDepartment(DepartmentLocationId departmentLocationId)
+    {
+        var departmentLocation =
+            _departmentLocations.FirstOrDefault(dl => dl.DepartmentLocationId == departmentLocationId);
+
+        if (departmentLocation != null)
+        {
+            _departmentLocations.Remove(departmentLocation);
+        }
+
+        UpdatedAt = DateTime.UtcNow;
+    }
 }
