@@ -1,7 +1,6 @@
 ﻿using DirectoryService.Core.Departments;
 using DirectoryService.Core.Locations;
 using DirectoryService.Infrastructure.Postgres.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,20 +14,11 @@ public static class DInjection
     {
         serviceCollection.AddScoped<DirectoryServiceDbContext>(_ =>
             new DirectoryServiceDbContext(configuration.GetConnectionString("DefaultConnection")!));
-        
-        var repoType = configuration["Repository:Location"] ?? "EfCore";
-        
-        switch (repoType.ToUpperInvariant())
-        {
-            case "DAPPER":
-                serviceCollection.AddScoped<ILocationRepository, DapperLocationRepository>();
-                break;
-            default:
-                serviceCollection.AddScoped<ILocationRepository, EfCoreLocationRepository>();
-                break;
-        }
+
+
+        serviceCollection.AddScoped<ILocationRepository, EfCoreLocationRepository>();
         serviceCollection.AddScoped<IDepartmentRepository, EfCoreDepartmentRepository>();
-        
+
 
         return serviceCollection;
     }

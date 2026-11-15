@@ -1,6 +1,4 @@
-﻿using DirectoryService.Core.Extensions;
-using DirectoryService.Domain.Departments.ValueObjects;
-using DirectoryService.Domain.Shar;
+﻿using DirectoryService.Domain.Shar;
 using FluentValidation;
 
 namespace DirectoryService.Core.Departments;

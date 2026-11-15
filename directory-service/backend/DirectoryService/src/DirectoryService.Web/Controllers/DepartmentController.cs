@@ -1,5 +1,8 @@
 ﻿using DirectoryService.Contracts.Departments;
 using DirectoryService.Core.Departments;
+using DirectoryService.Core.Departments.Communications.AddLocation;
+using DirectoryService.Core.Departments.RemoveLocation;
+using DirectoryService.Core.Departments.UpdateName;
 using Microsoft.AspNetCore.Mvc;
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
@@ -10,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
     Target = "DirectoryService.Web.Controllers")]
 
 namespace DirectoryService.Web.Controllers;
-
 
 [ApiController]
 [Route("api/[controller]")]
@@ -41,15 +43,45 @@ public sealed class DepartmentController : ControllerBase
         return Ok(Array.Empty<object>());
     }
 
-    [HttpPut("{id:guid}")]
-    public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateDepartmentDto request)
+    [HttpPatch("{departmentId:guid}")]
+    public async Task<IActionResult> UpdateName(
+        [FromRoute] Guid departmentId,
+        [FromServices] UpdateDepartmentNameHandler handler,
+        [FromBody] UpdateDepartmentNameDto request,
+        CancellationToken cancellationToken)
     {
-        return Ok();
+        var command = new UpdateDepartmentNameCommand(departmentId, request);
+
+        await handler.Handle(command, cancellationToken);
+
+        return Ok(new { Id = departmentId });
     }
 
-    [HttpDelete("{id:guid}")]
-    public IActionResult Delete([FromRoute] Guid id)
+    [HttpPost("/api/departments/{departmentId:guid}/locations/{locationId:guid}")]
+    public async Task<IActionResult> AddLocationToDepartment(
+        [FromRoute] Guid departmentId,
+        [FromRoute] Guid locationId,
+        [FromServices] AddLocationHandler handler,
+        CancellationToken cancellationToken)
     {
-        return Ok();
+        var command = new AddLocationCommand(departmentId, locationId);
+
+        await handler.Handle(command, cancellationToken);
+
+        return Ok(new { Id = departmentId});
+    }
+
+    [HttpDelete("/api/departments/{departmentId:guid}/locations/{locationId:guid}")]
+    public async Task<IActionResult> RemoveLocationToDepartment(
+        [FromRoute] Guid departmentId,
+        [FromRoute] Guid locationId,
+        [FromServices] RemoveLocationHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var command = new RemoveLocationCommand(departmentId, locationId);
+
+        await handler.Handle(command, cancellationToken);
+
+        return Ok(new { Id = departmentId});
     }
 }

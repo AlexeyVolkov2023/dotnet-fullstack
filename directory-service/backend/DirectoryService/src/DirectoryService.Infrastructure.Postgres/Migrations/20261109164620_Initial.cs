@@ -35,36 +35,36 @@ namespace DirectoryService.Infrastructure.Postgres.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "location",
+                name: "locations",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    city = table.Column<string>(type: "text", nullable: false),
-                    country = table.Column<string>(type: "text", nullable: false),
-                    house_number = table.Column<string>(type: "text", nullable: false),
-                    region = table.Column<string>(type: "text", nullable: false),
-                    street = table.Column<string>(type: "text", nullable: false),
+                    city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    house_number = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    region = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    street = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
                     location_name = table.Column<string>(type: "character varying(120)", maxLength: 120, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_location", x => x.id);
+                    table.PrimaryKey("PK_locations", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "position",
+                name: "positions",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     position_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_position", x => x.id);
+                    table.PrimaryKey("PK_positions", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,9 +86,9 @@ namespace DirectoryService.Infrastructure.Postgres.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_department_locations_location_location_id",
+                        name: "FK_department_locations_locations_location_id",
                         column: x => x.location_id,
-                        principalTable: "location",
+                        principalTable: "locations",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -112,9 +112,9 @@ namespace DirectoryService.Infrastructure.Postgres.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_department_positions_position_position_id",
+                        name: "FK_department_positions_positions_position_id",
                         column: x => x.position_id,
-                        principalTable: "position",
+                        principalTable: "positions",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -161,13 +161,13 @@ namespace DirectoryService.Infrastructure.Postgres.Migrations
                 name: "department_positions");
 
             migrationBuilder.DropTable(
-                name: "location");
+                name: "locations");
 
             migrationBuilder.DropTable(
                 name: "departments");
 
             migrationBuilder.DropTable(
-                name: "position");
+                name: "positions");
         }
     }
 }

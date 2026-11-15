@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿#pragma warning disable S125
+/*using Dapper;
 using DirectoryService.Core.Locations;
 using DirectoryService.Domain.Locations.Aggregate;
 using DirectoryService.Domain.Locations.Ids;
@@ -21,9 +22,9 @@ public class DapperLocationRepository : ILocationRepository
     public async Task<LocationId> AddAsync(Location location, CancellationToken cancellationToken = default)
     {
        const string sql = @"
-        INSERT INTO locations 
+        INSERT INTO locations
             (id, location_name, country, region, city, street, house_number, created_at, updated_at)
-        VALUES 
+        VALUES
             (@Id, @LocationName, @Country, @Region, @City, @Street, @HouseNumber, @CreatedAt, @UpdatedAt)";
 
         try
@@ -54,16 +55,68 @@ public class DapperLocationRepository : ILocationRepository
     }
 
     public async Task<bool> ExistsByNameAsync(
-        LocationName locationName, 
+        LocationName locationName,
         CancellationToken cancellationToken = default)
     {
        const string sql = "SELECT EXISTS(SELECT 1 FROM locations WHERE location_name = @LocationName)";
 
         await using var connection = new NpgsqlConnection(_connectionString);
-    
+
         return await connection.QuerySingleAsync<bool>(
             sql,
             param: new { LocationName = locationName.Value }
         );
     }
-}
+
+    public async Task<bool> ExistByIdAsync(
+        LocationId locationId,
+        CancellationToken cancellationToken = default)
+    {
+        const string sql = "SELECT EXISTS(SELECT 1 FROM locations WHERE id = @Id)";
+
+        await using var connection = new NpgsqlConnection(_connectionString);
+
+        return await connection.QuerySingleAsync<bool>(
+            sql,
+            param: new { Id = locationId.Value });
+    }
+
+    public async Task<bool> DoesLocationNameExistExcludingIdAsync(
+        LocationName locationName,
+        LocationId excludedId,
+        CancellationToken cancellationToken = default)
+    {
+        const string sql = @"
+            SELECT EXISTS(
+                SELECT 1 FROM locations
+                WHERE location_name = @LocationName AND id != @ExcludedId
+            )";
+
+        await using var connection = new NpgsqlConnection(_connectionString);
+
+        return await connection.QuerySingleAsync<bool>(
+            sql,
+            param: new
+            {
+                LocationName = locationName.Value,
+                ExcludedId = excludedId.Value
+            });
+    }
+
+
+    Task<Location> ILocationRepository.GetByIdAsync(LocationId locationId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Save(CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> GetByIdAsync(LocationId locationId, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+} */
+#pragma warning restore S125

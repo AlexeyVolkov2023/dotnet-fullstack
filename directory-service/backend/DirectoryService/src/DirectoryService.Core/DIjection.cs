@@ -1,5 +1,9 @@
 ﻿using DirectoryService.Core.Departments;
+using DirectoryService.Core.Departments.Communications.AddLocation;
+using DirectoryService.Core.Departments.RemoveLocation;
+using DirectoryService.Core.Departments.UpdateName;
 using DirectoryService.Core.Locations.Create;
+using DirectoryService.Core.Locations.Update;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +15,11 @@ public static class DInjection
     {
         serviceCollection.AddScoped<CreateLocationHandler>();
         serviceCollection.AddScoped<CreateDepartmentHandler>();
-
+        serviceCollection.AddScoped<UpdateLocationHandler>();
+        serviceCollection.AddScoped<UpdateDepartmentNameHandler>();
+        serviceCollection.AddScoped<AddLocationHandler>();
+        serviceCollection.AddScoped<RemoveLocationHandler>();
+        
         serviceCollection.AddValidatorsFromAssembly(typeof(DInjection).Assembly);
 
         return serviceCollection;
